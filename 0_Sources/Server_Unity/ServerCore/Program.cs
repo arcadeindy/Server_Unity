@@ -6,35 +6,27 @@ namespace ServerCore
 {
     class Program
     {
-        volatile static bool _stop = false;
-
-        static void ThreadMain()
-        {
-            Console.WriteLine("Thread Start");
-            
-            while (_stop == false)
-            {
-
-            }
-
-            Console.WriteLine("Thread Exit");
-        }
-
         static void Main(string[] args)
         {
-            Task t = new Task(ThreadMain);
-            t.Start();
+            int[,] arr = new int[10000, 10000];
 
-            Thread.Sleep(1000);
+            {
+                long now = DateTime.Now.Ticks;
+                for (int y = 0; y < 10000; y++)
+                    for (int x = 0; x < 10000; x++)
+                        arr[y, x] = 1;
+                long end = DateTime.Now.Ticks;
+                Console.WriteLine($"(y, x) Calc Time : {end - now}");
+            }
 
-            _stop = true;
-
-            Console.WriteLine("Call Stop");
-            Console.WriteLine("Waiting for exit");
-            
-            t.Wait();
-
-            Console.WriteLine("Exit");
+            {
+                long now = DateTime.Now.Ticks;
+                for (int y = 0; y < 10000; y++)
+                    for (int x = 0; x < 10000; x++)
+                        arr[x, y] = 1;
+                long end = DateTime.Now.Ticks;
+                Console.WriteLine($"(x, y) Calc Time : {end - now}");
+            }
         }
     }
 }
