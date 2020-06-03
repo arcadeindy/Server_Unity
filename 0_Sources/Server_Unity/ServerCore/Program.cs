@@ -7,17 +7,17 @@ namespace ServerCore
     class Program
     {
         static int number = 0;
+        static object _obj = new object();
 
         static void Thread_1()
         {
-            // 원자성
             for (int i = 0; i < 10000; i++)
             {
-                Interlocked.Increment(ref number);
-
-                //int temp = number;
-                //temp += 1;
-                //number = temp;
+                // 상호배제 : Mutual Exclusive
+                lock (_obj)
+                {
+                    number++;
+                }
             }
         }
 
@@ -25,11 +25,10 @@ namespace ServerCore
         {
             for (int i = 0; i < 10000; i++)
             {
-                Interlocked.Decrement(ref number);
-
-                //int temp = number;
-                //temp -= 1;
-                //number = temp;
+               lock (_obj)
+                {
+                    number--;
+                }
             }
         }
 
