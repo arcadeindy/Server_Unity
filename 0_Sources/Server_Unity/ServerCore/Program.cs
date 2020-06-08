@@ -6,22 +6,29 @@ namespace ServerCore
 {
     class SpinLock
     {
-        volatile bool _locked = false;
+        volatile int _locked = 0;
+
+        int _expected = 0;
+        int _desired = 1;
 
         public void Acquire()
         {
-            while (_locked)
+            while (true)
             {
-                // lock 해제 대기
-            }
+                //int original = Interlocked.Exchange(ref _locked, 1);
+                //if (original == 0)
+                //    break;
 
-            // lock 획득
-            _locked = true;
+                // CAS Compare-And-Swap
+                
+                if (Interlocked.CompareExchange(ref _locked, _desired, _expected) == 0)
+                    break;
+            }
         }
 
         public void Release()
         {
-            _locked = false;
+            _locked = 0;
         }
     }
 
@@ -32,7 +39,7 @@ namespace ServerCore
 
         static void Thread_1()
         {
-            for (int i = 0; i < 100000; i++)
+            for (int i = 0; i < 1000000; i++)
             {
                 _lock.Acquire();
                 _num++;
@@ -42,7 +49,7 @@ namespace ServerCore
 
         static void Thread_2()
         {
-            for (int i = 0; i < 100000; i++)
+            for (int i = 0; i < 1000000; i++)
             {
                 _lock.Acquire();
                 _num--;
