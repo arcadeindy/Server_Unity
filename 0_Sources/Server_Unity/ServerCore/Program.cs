@@ -1,59 +1,49 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace ServerCore
 {
-    class SpinLock
-    {
-        volatile int _locked = 0;
+    //class Lock
+    //{
+    //    //AutoResetEvent _available = new AutoResetEvent(true);
+    //    ManualResetEvent _available = new ManualResetEvent(true);
 
-        int _expected = 0;
-        int _desired = 1;
+    //    public void Acquire()
+    //    {
+    //        _available.WaitOne(); // 입장 시도
+    //        _available.Reset(); // 문을 닫음
+    //    }
 
-        public void Acquire()
-        {
-            while (true)
-            {
-                //int original = Interlocked.Exchange(ref _locked, 1);
-                //if (original == 0)
-                //    break;
-
-                // CAS Compare-And-Swap
-                
-                if (Interlocked.CompareExchange(ref _locked, _desired, _expected) == 0)
-                    break;
-            }
-        }
-
-        public void Release()
-        {
-            _locked = 0;
-        }
-    }
+    //    public void Release()
+    //    {
+    //        _available.Set();
+    //    }
+    //}
 
     class Program
     {
         static int _num = 0;
-        static SpinLock _lock = new SpinLock();
+        static Mutex _lock = new Mutex();
 
         static void Thread_1()
         {
-            for (int i = 0; i < 1000000; i++)
+            for (int i = 0; i < 100000; i++)
             {
-                _lock.Acquire();
+                _lock.WaitOne();
                 _num++;
-                _lock.Release();
+                _lock.ReleaseMutex();
             }
         }
 
         static void Thread_2()
         {
-            for (int i = 0; i < 1000000; i++)
+            for (int i = 0; i < 100000; i++)
             {
-                _lock.Acquire();
+                _lock.WaitOne();
                 _num--;
-                _lock.Release();
+                _lock.ReleaseMutex();
             }
         }
 
