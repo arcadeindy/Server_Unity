@@ -5,58 +5,71 @@ using System.Threading.Tasks;
 
 namespace ServerCore
 {
-    //class Lock
-    //{
-    //    //AutoResetEvent _available = new AutoResetEvent(true);
-    //    ManualResetEvent _available = new ManualResetEvent(true);
-
-    //    public void Acquire()
-    //    {
-    //        _available.WaitOne(); // 입장 시도
-    //        _available.Reset(); // 문을 닫음
-    //    }
-
-    //    public void Release()
-    //    {
-    //        _available.Set();
-    //    }
-    //}
-
     class Program
     {
-        static int _num = 0;
-        static Mutex _lock = new Mutex();
+        // 1. 존버
+        // 2. 양보
+        // 3. 갑질
 
-        static void Thread_1()
+        // 상호배제
+        // Monitor
+        static object _lock = new object();
+        static SpinLock _lock2 = new SpinLock();
+        // or 직구현
+
+        static ReaderWriterLockSlim _lock3 = new ReaderWriterLockSlim();
+
+        class Reward
         {
-            for (int i = 0; i < 100000; i++)
-            {
-                _lock.WaitOne();
-                _num++;
-                _lock.ReleaseMutex();
-            }
+
         }
 
-        static void Thread_2()
+        
+
+        static Reward GetRewardById(int id)
         {
-            for (int i = 0; i < 100000; i++)
+            _lock3.EnterReadLock();
+
+            _lock3.ExitReadLock();
+
+            lock (_lock)
             {
-                _lock.WaitOne();
-                _num--;
-                _lock.ReleaseMutex();
+
+            }
+            return null;
+        }
+
+        static void AddReward(Reward reward)
+        {
+            _lock3.EnterWriteLock();
+
+            _lock3.ExitWriteLock();
+
+            lock (_lock)
+            {
+
             }
         }
 
         static void Main(string[] args)
         {
-            Task t1 = new Task(Thread_1);
-            Task t2 = new Task(Thread_2);
-            t1.Start();
-            t2.Start();
+            lock (_lock)
+            {
 
-            Task.WaitAll(t1, t2);
+            }
 
-            Console.WriteLine(_num);
+            bool lockTaken = false;
+            try
+            {
+                _lock2.Enter(ref lockTaken);
+            }
+            finally
+            {
+                if (lockTaken)
+                    _lock2.Exit();
+            }
+
+            
         }
     }
 }
