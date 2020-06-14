@@ -32,7 +32,7 @@ namespace DummyClient
                     // 보낸다
                     for (int i = 0; i < 5; i++)
                     {
-                        byte[] sendBuff = Encoding.UTF8.GetBytes($"Hello World {i}");
+                        byte[] sendBuff = Encoding.UTF8.GetBytes($"Hello World {i} ");
                         int sendBytes = socket.Send(sendBuff);
                     }
 
