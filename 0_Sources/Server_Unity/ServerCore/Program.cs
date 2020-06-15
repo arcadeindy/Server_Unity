@@ -8,30 +8,40 @@ using System.Threading.Tasks;
 
 namespace ServerCore
 {
+    class GameSession : Session
+    {
+        public override void OnConnected(EndPoint endPoint)
+        {
+            Console.WriteLine($"OnConnected : {endPoint}");
+
+            byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome to My Server!");
+            this.Send(sendBuff);
+
+            Thread.Sleep(1000);
+
+            this.Disconnect();
+        }
+
+        public override void OnDisconnected(EndPoint endPoint)
+        {
+            Console.WriteLine($"OnDisconnected : {endPoint}");
+        }
+
+        public override void OnRecv(ArraySegment<byte> buffer)
+        {
+            string recvData = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count);
+            Console.WriteLine($"[From Client] {recvData}");
+        }
+
+        public override void OnSend(int numOfBytes)
+        {
+            Console.WriteLine($"Transfered bytes : {numOfBytes}");
+        }
+    }
+
     class Program
     {
         static Listener _listener = new Listener();
-
-        static void OnAcceptHandler(Socket clientSocket)
-        {
-            try
-            {
-                Session session = new Session();
-                session.Start(clientSocket);
-
-                byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome to My Server!");
-                session.Send(sendBuff);
-
-                Thread.Sleep(1000);
-
-                session.Disconnect();
-                session.Disconnect();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-        }
 
         static void Main(string[] args)
         {
@@ -41,7 +51,7 @@ namespace ServerCore
             IPAddress ipAddr = ipHost.AddressList[0];
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
-            _listener.Init(endPoint, OnAcceptHandler);
+            _listener.Init(endPoint, () => { return new GameSession(); });
             Console.WriteLine("Listening...");
 
             while (true)
