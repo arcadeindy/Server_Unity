@@ -1,5 +1,6 @@
 ﻿using ServerCore;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -42,8 +43,6 @@ namespace DummyClient
 
     class Program
     {
-        static int _count = 0;
-
         static void Main(string[] args)
         {
             // DNS (Domain Name System)
