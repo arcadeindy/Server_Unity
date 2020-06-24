@@ -5,9 +5,13 @@ VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csproj", "{2A6ED771-51D7-4068-BD54-37B2CF3260E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerCore", "ServerCore\ServerCore.csproj", "{3E1790BB-029D-4467-98C8-10396BCBF579}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerCore", "ServerCore\ServerCore.csproj", "{3E1790BB-029D-4467-98C8-10396BCBF579}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyClient", "DummyClient\DummyClient.csproj", "{9E255235-CEAB-41E7-9D06-C9ACC48C569E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DummyClient", "DummyClient\DummyClient.csproj", "{9E255235-CEAB-41E7-9D06-C9ACC48C569E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacketGenerator", "PacketGenerator\PacketGenerator.csproj", "{216C649A-D56B-485B-82A0-95A557DB9F10}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{EF6C0AD0-7C9A-4604-9DAC-C2CD400C0E7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +31,16 @@ Global
 		{9E255235-CEAB-41E7-9D06-C9ACC48C569E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E255235-CEAB-41E7-9D06-C9ACC48C569E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E255235-CEAB-41E7-9D06-C9ACC48C569E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{216C649A-D56B-485B-82A0-95A557DB9F10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{216C649A-D56B-485B-82A0-95A557DB9F10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{216C649A-D56B-485B-82A0-95A557DB9F10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{216C649A-D56B-485B-82A0-95A557DB9F10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{216C649A-D56B-485B-82A0-95A557DB9F10} = {EF6C0AD0-7C9A-4604-9DAC-C2CD400C0E7B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5ECDCA49-D565-484D-AC31-CB4D876B20BD}
