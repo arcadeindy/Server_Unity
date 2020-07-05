@@ -16,15 +16,18 @@ namespace Server
 
         public ClientSession Generate()
         {
-            int sessionId = ++_sessionId;
+            lock (_lock)
+            {
+                int sessionId = ++_sessionId;
 
-            ClientSession session = new ClientSession();
-            session.SessionId = sessionId;
-            _sessions.Add(sessionId, session);
+                ClientSession session = new ClientSession();
+                session.SessionId = sessionId;
+                _sessions.Add(sessionId, session);
 
-            Console.WriteLine($"Connected : {sessionId}");
+                Console.WriteLine($"Connected : {sessionId}");
 
-            return session; 
+                return session;
+            }
         }
 
         public ClientSession Find(int id)
