@@ -34,7 +34,7 @@ class C_Chat : IPacket
         count += sizeof(ushort);
         ushort chatLen = BitConverter.ToUInt16(s.Slice(count, s.Length - count));
 		count += sizeof(ushort);
-		this.chat = Encoding.Unicode.GetString(s.Slice(count, nameLen));
+		this.chat = Encoding.Unicode.GetString(s.Slice(count, chatLen));
 		count += chatLen;
     }
 
@@ -81,7 +81,7 @@ class S_Chat : IPacket
 		count += sizeof(int);
 		ushort chatLen = BitConverter.ToUInt16(s.Slice(count, s.Length - count));
 		count += sizeof(ushort);
-		this.chat = Encoding.Unicode.GetString(s.Slice(count, nameLen));
+		this.chat = Encoding.Unicode.GetString(s.Slice(count, chatLen));
 		count += chatLen;
     }
 
