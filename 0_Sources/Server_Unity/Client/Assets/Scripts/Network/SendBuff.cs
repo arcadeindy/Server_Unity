@@ -9,7 +9,7 @@ namespace ServerCore
     {
         public static ThreadLocal<SendBuff> CurrentBuffer = new ThreadLocal<SendBuff>(() => { return null; });
 
-        public static int ChunkSize { get; set; } = 65535 * 100;
+        public static int ChunkSize { get; set; } = 65535;
 
         public static ArraySegment<byte> Open(int reserveSize)
         {
