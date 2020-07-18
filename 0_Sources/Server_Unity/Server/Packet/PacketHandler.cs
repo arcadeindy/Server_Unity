@@ -25,7 +25,7 @@ class PacketHandler
         if (clientSession.Room == null)
             return;
 
-        Console.WriteLine($"X:{movePacket.posX}\tY:{movePacket.posY}\tZ:{movePacket.posZ}");
+        //Console.WriteLine($"X:{movePacket.posX}\tY:{movePacket.posY}\tZ:{movePacket.posZ}");
 
         GameRoom room = clientSession.Room;
         room.Push(() => room.Move(clientSession, movePacket));
